@@ -2,6 +2,7 @@ package linx7a.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -13,14 +14,14 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
     @Column(name = "total_amount", nullable = false)
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     @Column(name = "status", nullable = false)
     private String status;
 
     public Order() {
     }
 
-    public Order(LocalDate orderDate, Double totalAmount, String status) {
+    public Order(LocalDate orderDate, BigDecimal totalAmount, String status) {
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.status = status;
@@ -42,11 +43,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

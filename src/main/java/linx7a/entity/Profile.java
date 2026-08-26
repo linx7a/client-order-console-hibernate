@@ -12,13 +12,17 @@ public class Profile {
     private String address;
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
+    @OneToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
     public Profile() {
     }
 
-    public Profile(String address, String phone) {
+    public Profile(String address, String phone, Client client) {
         this.address = address;
         this.phone = phone;
+        this.client = client;
     }
 
     public String getAddress() {
@@ -35,6 +39,14 @@ public class Profile {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override

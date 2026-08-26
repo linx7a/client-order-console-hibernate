@@ -17,6 +17,9 @@ public class Client {
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
 
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private Profile profile;
+
     public Client() {
     }
 
@@ -48,6 +51,14 @@ public class Client {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override

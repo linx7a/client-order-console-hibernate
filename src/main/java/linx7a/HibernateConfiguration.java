@@ -1,5 +1,7 @@
 package linx7a;
 
+import linx7a.entity.Client;
+import linx7a.entity.Profile;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,8 @@ public class HibernateConfiguration {
         public SessionFactory sessionFactory() {
             org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
             configuration
+                    .addAnnotatedClass(Client.class)
+                    .addAnnotatedClass(Profile.class)
                     .addPackage("linx7a")
                     .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
                     .setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5434/postgres")

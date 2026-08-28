@@ -1,6 +1,6 @@
 package linx7a.service;
 
-import linx7a.entity.Coupon;
+import linx7a.entity.Order;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -9,20 +9,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CouponService {
+public class OrderService {
     private final SessionFactory sessionFactory;
 
-    public CouponService(SessionFactory sessionFactory) {
+    public OrderService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public Coupon saveCoupon(Coupon coupon) {
+    public Order saveOrder(Order order) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.persist(coupon);
+            session.persist(order);
             transaction.commit();
-            return coupon;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -31,12 +31,12 @@ public class CouponService {
         }
     }
 
-    public void deleteCoupon(Long id) {
+    public void deleteOrder(Long id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Coupon coupon = session.find(Coupon.class, id);
-            session.remove(coupon);
+            Order order = session.find(Order.class, id);
+            session.remove(order);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -46,29 +46,29 @@ public class CouponService {
         }
     }
 
-    public Coupon getById(Long id) {
+    public Order getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Coupon coupon = session.find(Coupon.class, id);
-            return coupon;
+            Order order = session.find(Order.class, id);
+            return order;
         }
     }
 
-    public List<Coupon> findAll() {
+    public List<Order> findAll() {
         try (Session session = sessionFactory.openSession()){
-            List<Coupon> allCoupons = session
-                    .createQuery("SELECT c FROM Coupon c", Coupon.class)
+            List<Order> allOrders = session
+                    .createQuery("SELECT o FROM Order o", Order.class)
                     .list();
-            return allCoupons;
+            return allOrders;
         }
     }
 
-    public Coupon updateCoupon(Coupon coupon) {
+    public Order updateOrder(Order order) {
         Transaction transaction = null;
         try(Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            coupon = session.merge(coupon);
+            order = session.merge(order);
             transaction.commit();
-            return coupon;
+            return order;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -77,4 +77,3 @@ public class CouponService {
         }
     }
 }
-

@@ -3,6 +3,7 @@ package linx7a.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -19,6 +20,9 @@ public class Client {
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Profile profile;
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders;
 
     public Client() {
     }
@@ -67,6 +71,14 @@ public class Client {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

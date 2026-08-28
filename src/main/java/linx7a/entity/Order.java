@@ -17,6 +17,9 @@ public class Order {
     private BigDecimal totalAmount;
     @Column(name = "status", nullable = false)
     private String status;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     public Order() {
     }

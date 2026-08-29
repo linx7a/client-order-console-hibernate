@@ -31,15 +31,9 @@ public class Main {
         client.getCoupons().add(coupon2);
         clientService.updateClient(client);
 
-       /** 4. Проверяем связь: заново достаём клиента, смотрим сколько купонов
+       // 4. Проверяем связь: заново достаём клиента, смотрим сколько купонов
 
-        @ManyToMany по умолчанию LAZY — поле coupons не подгружается сразу
-        при getById(), а только "по требованию". Но getById() использует
-        try-with-resources и закрывает Session сразу после return — то есть
-        к моменту, когда мы обращаемся к getCoupons() здесь, сессия уже мертва.
-
-        Результат: LazyInitializationException.*/
-        Client foundClient = clientService.getById(client.getId());
+        Client foundClient = clientService.getByIdWithCoupons(client.getId());
         System.out.println("У клиента купонов: " + foundClient.getCoupons().size());
     }
 }

@@ -53,6 +53,23 @@ public class ClientService {
         }
     }
 
+    /**
+     * Загружает клиента вместе со списком его купонов, форсируя инициализацию
+     * LAZY коллекции внутри открытой сессии.
+     *
+     * В отличие от fetch = EAGER на самой связи, этот подход тратит меньше ресурсов:
+     * купоны подгружаются только тогда, когда они реально нужны, через этот
+     * конкретный метод, а не при каждом обычном обращении к Client.
+     */
+
+    public Client getByIdWithCoupons(Long id) {
+        try(Session session = sessionFactory.openSession()) {
+            Client client = session.find(Client.class, id);
+            client.getCoupons().size(); // форсируем инициализацию LAZY-коллекции внутри сессии
+            return client;
+        }
+    }
+
     public List<Client> findAll() {
         try (Session session = sessionFactory.openSession()) {
             List<Client> allClients = session

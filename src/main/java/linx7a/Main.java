@@ -1,9 +1,9 @@
 package linx7a;
 
 import linx7a.entity.Client;
-import linx7a.entity.Profile;
+import linx7a.entity.Coupon;
 import linx7a.service.ClientService;
-import linx7a.service.ProfileService;
+import linx7a.service.CouponService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
@@ -15,26 +15,31 @@ public class Main {
                 new AnnotationConfigApplicationContext("linx7a");
 
         ClientService clientService = context.getBean(ClientService.class);
-        ProfileService profileService = context.getBean(ProfileService.class);
+        CouponService couponService = context.getBean(CouponService.class);
 
-        Random random = new Random();
+        // 1. Создаём клиента
+        Client client = clientService.saveClient(new Client("Гоша Пирожков", "gosha" + new Random().nextInt(10000000) + "@example.com", LocalDate.now()));
+        System.out.println("Клиент сохранён: " + client.getName());
 
-        // 1. Сохраняем клиента
-        Client client = clientService.saveClient(
-                new Client("Сёма Компотов", "syoma.kompotov" + random.nextInt(10000000) + "@example.com", LocalDate.now())
-        );
-        System.out.println("Клиент " + client.getName() + " сохранён с id: " + client.getId());
+        // 2. Создаём два купона
+        Coupon coupon1 = couponService.saveCoupon(new Coupon("SUMMER2026", 15.0f, LocalDate.now().plusMonths(1)));
+        Coupon coupon2 = couponService.saveCoupon(new Coupon("WINTER2026", 20.0f, LocalDate.now().plusMonths(2)));
+        System.out.println("Купоны сохранены: " + coupon1.getCode() + ", " + coupon2.getCode());
 
-        // 2. Создаём и сохраняем профиль, ссылающийся на клиента
-        Profile profile = new Profile("г. Варенье, ул. Сладкая, д. 21", "+7999" + random.nextInt(10000000), client);
-        profile = profileService.saveProfile(profile);
-        System.out.println("Профиль сохранён с id: " + profile.getId() + ", привязан к клиенту id: " + profile.getClient().getId());
+        // 3. Привязываем купоны клиенту
+        client.getCoupons().add(coupon1);
+        client.getCoupons().add(coupon2);
+        clientService.updateClient(client);
 
-        // 3. Проверяем каскад: получаем клиента заново из базы, смотрим, подтянулся ли профиль
+       /* 4. Проверяем связь: заново достаём клиента, смотрим сколько купонов
+
+        @ManyToMany по умолчанию LAZY — поле coupons не подгружается сразу
+        при getById(), а только "по требованию". Но getById() использует
+        try-with-resources и закрывает Session сразу после return — то есть
+        к моменту, когда мы обращаемся к getCoupons() здесь, сессия уже мертва.
+
+        Результат: LazyInitializationException.*/
         Client foundClient = clientService.getById(client.getId());
-        System.out.println("Клиент из базы: " + foundClient.getName() + ", его профиль (каскадом): " + foundClient.getProfile());
-
-        Profile foundProfile = profileService.getById(profile.getId());
-        System.out.println("Профиль из базы принадлежит клиенту: " + foundProfile.getClient().getName());
+        System.out.println("У клиента купонов: " + foundClient.getCoupons().size());
     }
 }

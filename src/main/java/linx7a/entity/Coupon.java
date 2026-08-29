@@ -3,6 +3,8 @@ package linx7a.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "coupons")
@@ -16,6 +18,9 @@ public class Coupon {
     private float discount;
     @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
+
+    @ManyToMany(mappedBy = "coupons")
+    private Set<Client> clients = new HashSet<>();
 
     public Coupon() {
     }
@@ -56,6 +61,14 @@ public class Coupon {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
     }
 
     @Override

@@ -3,7 +3,9 @@ package linx7a.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
@@ -23,6 +25,14 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
+
+    @ManyToMany
+    @JoinTable(
+            name = "client_coupons",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "coupon_id")
+    )
+    private Set<Coupon> coupons = new HashSet<>();
 
     public Client() {
     }
@@ -79,6 +89,14 @@ public class Client {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Set<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(Set<Coupon> coupons) {
+        this.coupons = coupons;
     }
 
     @Override

@@ -26,7 +26,13 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
 
-    @ManyToMany
+    /**
+     * fetch = EAGER: купоны клиента подгружаются сразу при каждом обращении к Client,
+     * даже если в конкретном сценарии они не нужны. Это простое решение, чтобы избежать LazyInitializationException,
+     * но оно тратит ресурсы на каждый запрос, независимо от реальной надобности.
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+
     @JoinTable(
             name = "client_coupons",
             joinColumns = @JoinColumn(name = "client_id"),

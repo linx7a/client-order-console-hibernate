@@ -62,6 +62,14 @@ public class Order {
         this.status = status;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "Order{" +

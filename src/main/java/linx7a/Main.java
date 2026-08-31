@@ -39,11 +39,23 @@ public class Main {
 
         System.out.println("Созданы клиенты и заказы");
 
-        // проверяем N+1: должен быть ОДИН SQL-запрос, а не несколько
-        List<Client> clientsWithOrders = clientService.findAllWithOrders();
-        System.out.println("Клиентов с заказами: " + clientsWithOrders.size());
-        for (Client c : clientsWithOrders) {
-            System.out.println(c.getName() + " -> заказов: " + c.getOrders().size());
-        }
+        // удаляем client1, у него есть order1
+        clientService.deleteClient(client1.getId());
+        System.out.println("client1 удалён");
+
+        // проверяем, что order1 тоже исчез каскадом
+        Order order1AfterDelete = orderService.getById(order1.getId());
+        System.out.println("order1 после удаления client1: " + order1AfterDelete); //должен быть null
+
+        // проверяем, что client2 и его заказы НЕ затронуты
+        Order order2AfterDelete = orderService.getById(order2.getId());
+        Order order3AfterDelete = orderService.getById(order3.getId());
+
+        System.out.println("order2: " + orderService.getById(order2.getId())); //должен остаться
+        System.out.println("order3: " + orderService.getById(order3.getId())); //должен остаться
+
+        System.out.println("order2: " + order2AfterDelete);
+        System.out.println("order3: " + order3AfterDelete);
+
     }
 }

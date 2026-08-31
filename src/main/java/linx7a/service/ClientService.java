@@ -94,4 +94,13 @@ public class ClientService {
             throw e;
         }
     }
+
+    public List<Client> findAllWithOrders() {
+        try (Session session = sessionFactory.openSession()){
+            return session.createQuery(
+                    "SELECT DISTINCT c FROM Client c LEFT JOIN FETCH c.orders", Client.class)
+                    .list();
+        }
+    }
+
 }

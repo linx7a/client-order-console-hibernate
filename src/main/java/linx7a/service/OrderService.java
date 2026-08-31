@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -74,6 +76,19 @@ public class OrderService {
                 transaction.rollback();
             }
             throw e;
+        }
+    }
+
+    public List<Order> findByFilters(LocalDate date, BigDecimal minAmount, String status) {
+        try (Session session = sessionFactory.openSession()){
+            return session.createQuery(
+                    "SELECT o FROM Order o WHERE o.orderDate = :date " +
+                            "AND o.totalAmount >= :minAmount " +
+                            "AND o.status = :status", Order.class)
+                    .setParameter("date", date)
+                    .setParameter("minAmount", minAmount)
+                    .setParameter("status", status)
+                    .list();
         }
     }
 }

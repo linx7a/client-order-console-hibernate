@@ -23,7 +23,7 @@ public class Client {
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Profile profile;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     @ManyToMany

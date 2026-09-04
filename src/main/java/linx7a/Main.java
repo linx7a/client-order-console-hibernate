@@ -1,14 +1,14 @@
 package linx7a;
 
-import linx7a.console.UpdateProfileCommand;
+import linx7a.console.AddOrderCommand;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext("linx7a");
-        UpdateProfileCommand updateProfileCommand = context.getBean(UpdateProfileCommand.class);
+        AddOrderCommand addOrderCommand = context.getBean(AddOrderCommand.class);
 
-        updateProfileCommand.execute();
+        addOrderCommand.execute();
     }
 }

@@ -1,18 +1,14 @@
 package linx7a;
 
 import linx7a.entity.Client;
-import linx7a.entity.Coupon;
 import linx7a.entity.Order;
 import linx7a.service.ClientService;
-import linx7a.service.CouponService;
 import linx7a.service.OrderService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Random;
-import java.util.function.BiFunction;
 
 public class Main {
     public static void main(String[] args) {

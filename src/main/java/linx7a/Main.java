@@ -21,8 +21,9 @@ public class Main {
         Client client7 = clientService.getById(7L);
         Client client8 = clientService.getById(8L);
 
-        Order order1 = orderService.saveOrder(new Order(LocalDate.of(2026, 8, 31), new BigDecimal("500"), "NEW"));
+        Order order1 = new Order(LocalDate.of(2026, 8, 31), new BigDecimal("500"), "NEW");
         order1.setClient(client7);
+        orderService.saveOrder(order1);
         Order order2 = orderService.saveOrder(new Order(LocalDate.of(2026, 8, 31), new BigDecimal("3000"), "COMPLETED"));
         order2.setClient(client7);
         Order order3 = orderService.saveOrder(new Order(LocalDate.of(2026, 9, 4), new BigDecimal("1200"), "NEW"));

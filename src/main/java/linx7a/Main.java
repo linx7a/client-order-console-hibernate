@@ -1,14 +1,14 @@
 package linx7a;
 
-import linx7a.console.DeleteClientCommand;
+import linx7a.console.ExitCommand;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext("linx7a");
-        DeleteClientCommand deleteClientCommand = context.getBean(DeleteClientCommand.class);
+        ExitCommand exitCommand = context.getBean(ExitCommand.class);
 
-        deleteClientCommand.execute();
+        exitCommand.execute();
     }
 }

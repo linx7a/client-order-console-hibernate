@@ -3,6 +3,7 @@ package linx7a.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class Client {
     private Profile profile;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

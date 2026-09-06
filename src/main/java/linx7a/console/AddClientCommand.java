@@ -2,13 +2,16 @@ package linx7a.console;
 
 import linx7a.entity.Client;
 import linx7a.entity.Coupon;
+import linx7a.entity.Order;
 import linx7a.entity.Profile;
 import linx7a.service.ClientService;
 import linx7a.service.CouponService;
-import linx7a.service.ProfileService;
+import linx7a.service.OrderService;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,12 +19,13 @@ import java.util.Scanner;
 public class AddClientCommand implements OperationCommand {
     private final ClientService clientService;
     private final CouponService couponService;
-    private final ProfileService profileService;
+    private final OrderService orderService;
 
-    public AddClientCommand(ClientService clientService, CouponService couponService, ProfileService profileService) {
+
+    public AddClientCommand(ClientService clientService, CouponService couponService, OrderService orderService) {
         this.clientService = clientService;
         this.couponService = couponService;
-        this.profileService = profileService;
+        this.orderService = orderService;
     }
 
     private final Scanner scanner = new Scanner(System.in);
@@ -55,7 +59,7 @@ public class AddClientCommand implements OperationCommand {
             for (Coupon coupon : allCoupons) {
                 System.out.println(coupon.getId() + ") " + coupon.getCode() + " - скидка " + coupon.getDiscount() + "%");
             }
-            System.out.println("Введите id купонов через запятую (или оставьте пустым, если не нужны):");
+            System.out.println("Введите id купонов через запятую (или нажмите Enter, если купоны не нужны):");
             String input = scanner.nextLine();
 
             if (!input.isBlank()) {
@@ -67,6 +71,23 @@ public class AddClientCommand implements OperationCommand {
                 }
                 clientService.updateClient(client);
             }
+        }
+        System.out.println("Введите дату заказа в формате ДД.ММ.ГГГГ (или нажмите Enter, если заказ не нужен):");
+        String dateInput = scanner.nextLine();
+        if (!dateInput.isBlank()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate orderDate = LocalDate.parse(dateInput.trim(), formatter);
+
+            System.out.println("Стоимость:");
+            BigDecimal totalAmount = new BigDecimal(scanner.nextLine().trim());
+
+            System.out.println("Статус:");
+            String status = scanner.nextLine().trim();
+
+            Order order = new Order(orderDate, totalAmount, status);
+            order.setClient(client);
+            orderService.saveOrder(order);
+            System.out.println("Заказ создан с ID: " + order.getId());
         }
     }
 

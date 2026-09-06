@@ -17,7 +17,7 @@ public class DeleteClientCommand implements OperationCommand {
     @Override
     public void execute() {
         System.out.println("ID клиента:");
-        Long clientId = Long.parseLong(scanner.nextLine());
+        Long clientId = Long.parseLong(scanner.nextLine().trim());
 
         Client client = clientService.getById(clientId);
         String clientName = client.getName();

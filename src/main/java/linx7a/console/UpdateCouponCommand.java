@@ -21,24 +21,24 @@ public class UpdateCouponCommand implements OperationCommand {
     @Override
     public void execute() {
         System.out.println("ID купона:");
-        Long couponId = Long.parseLong(scanner.nextLine());
+        Long couponId = Long.parseLong(scanner.nextLine().trim());
         Coupon coupon = couponService.getById(couponId);
 
         System.out.println("Новый код купона (Enter, чтобы не менять):");
-        String code = scanner.nextLine();
+        String code = scanner.nextLine().trim();
         if (!code.isBlank()) {
             coupon.setCode(code);
         }
 
         System.out.println("Новая скидка (Enter, чтобы не менять):");
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         if (!input.isBlank()) {
             Float discount = Float.parseFloat(input);
             coupon.setDiscount(discount);
         }
 
         System.out.println("Дата окончания действия (ДД.ММ.ГГГГ) (Enter, чтобы не менять):");
-        String dateInput = scanner.nextLine();
+        String dateInput = scanner.nextLine().trim();
         if (!dateInput.isBlank()) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDate expirationDate = LocalDate.parse(dateInput, formatter);

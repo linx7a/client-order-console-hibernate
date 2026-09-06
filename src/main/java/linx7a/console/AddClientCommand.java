@@ -33,16 +33,16 @@ public class AddClientCommand implements OperationCommand {
     @Override
     public void execute() {
         System.out.println("Имя клиента:");
-        String name = scanner.nextLine();
+        String name = scanner.nextLine().trim();
 
         System.out.println("Email клиента:");
-        String email = scanner.nextLine();
+        String email = scanner.nextLine().trim();
 
         System.out.println("Адрес:");
-        String address = scanner.nextLine();
+        String address = scanner.nextLine().trim();
 
         System.out.println("Номер телефона:");
-        String phone = scanner.nextLine();
+        String phone = scanner.nextLine().trim();
 
         Client client = new Client(name, email, LocalDate.now());
         Profile profile = new Profile(address, phone, client);

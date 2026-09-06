@@ -24,13 +24,13 @@ public class FindOrdersCommand implements OperationCommand {
     public void execute() {
         System.out.println("Дата заказа (ДД.ММ.ГГГГ):");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate orderDate = LocalDate.parse(scanner.nextLine(), formatter);
+        LocalDate orderDate = LocalDate.parse(scanner.nextLine().trim(), formatter);
 
         System.out.println("Минимальная сумма:");
-        BigDecimal minAmount = new BigDecimal(scanner.nextLine());
+        BigDecimal minAmount = new BigDecimal(scanner.nextLine().trim());
 
         System.out.println("Статус:");
-        String status = scanner.nextLine();
+        String status = scanner.nextLine().trim();
 
         List<Order> foundOrders = orderService.findByFilters(orderDate, minAmount, status);
         if (!foundOrders.isEmpty()) {

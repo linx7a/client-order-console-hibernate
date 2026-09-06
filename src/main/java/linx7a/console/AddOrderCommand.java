@@ -24,14 +24,14 @@ public class AddOrderCommand implements OperationCommand {
     @Override
     public void execute() {
         System.out.println("ID клиента:");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = Long.parseLong(scanner.nextLine().trim());
         Client client = clientService.getById(id);
 
         System.out.println("Сумма заказа:");
-        BigDecimal totalAmount = new BigDecimal(scanner.nextLine());
+        BigDecimal totalAmount = new BigDecimal(scanner.nextLine().trim());
 
         System.out.println("Статус заказа:");
-        String status = scanner.nextLine();
+        String status = scanner.nextLine().trim();
 
         Order order = new Order(LocalDate.now(), totalAmount, status);
         order.setClient(client);

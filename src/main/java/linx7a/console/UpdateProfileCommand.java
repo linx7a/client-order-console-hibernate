@@ -22,17 +22,17 @@ public class UpdateProfileCommand implements OperationCommand {
     @Override
     public void execute() {
         System.out.println("Выберите клиента по id:");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = Long.parseLong(scanner.nextLine().trim());
         Client client = clientService.getById(id);
         Profile profile = client.getProfile();
 
         System.out.println("Новый адрес (Enter, чтобы не менять):");
-        String address = scanner.nextLine();
+        String address = scanner.nextLine().trim();
         if (!address.isBlank()) {
             profile.setAddress(address);
         }
         System.out.println("Новый номер телефона(Enter, чтобы не менять):");
-        String phone = scanner.nextLine();
+        String phone = scanner.nextLine().trim();
         if (!phone.isBlank()) {
             profile.setPhone(phone);
         }

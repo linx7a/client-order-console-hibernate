@@ -67,6 +67,10 @@ public class AddClientCommand implements OperationCommand {
                 for (String id : ids) {
                     Long couponId = Long.parseLong(id.trim());
                     Coupon coupon = couponService.getById(couponId);
+                    if (coupon == null) {
+                        System.out.println("Купон с ID: " + id + " не найден.");
+                        continue;
+                    }
                     client.getCoupons().add(coupon);
                 }
                 clientService.updateClient(client);

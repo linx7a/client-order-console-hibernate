@@ -26,6 +26,10 @@ public class AddOrderCommand implements OperationCommand {
         System.out.println("ID клиента:");
         Long id = Long.parseLong(scanner.nextLine().trim());
         Client client = clientService.getById(id);
+        if (client == null) {
+            System.out.println("Клиент с ID: " + id + " не найден.");
+            return;
+        }
 
         System.out.println("Сумма заказа:");
         BigDecimal totalAmount = new BigDecimal(scanner.nextLine().trim());

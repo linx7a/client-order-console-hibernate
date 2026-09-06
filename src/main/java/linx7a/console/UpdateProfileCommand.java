@@ -21,9 +21,13 @@ public class UpdateProfileCommand implements OperationCommand {
 
     @Override
     public void execute() {
-        System.out.println("Выберите клиента по id:");
+        System.out.println("Выберите клиента по ID:");
         Long id = Long.parseLong(scanner.nextLine().trim());
         Client client = clientService.getById(id);
+        if (client == null) {
+            System.out.println("Клиент с ID: " + id + " не найден.");
+            return;
+        }
         Profile profile = client.getProfile();
 
         System.out.println("Новый адрес (Enter, чтобы не менять):");

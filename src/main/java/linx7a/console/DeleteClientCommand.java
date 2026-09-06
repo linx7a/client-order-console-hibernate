@@ -18,8 +18,11 @@ public class DeleteClientCommand implements OperationCommand {
     public void execute() {
         System.out.println("ID клиента:");
         Long clientId = Long.parseLong(scanner.nextLine().trim());
-
         Client client = clientService.getById(clientId);
+        if (client == null) {
+            System.out.println("Клиент с ID: " + clientId + " не найден.");
+            return;
+        }
         String clientName = client.getName();
 
         clientService.deleteClient(clientId);

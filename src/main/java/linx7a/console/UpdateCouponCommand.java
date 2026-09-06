@@ -23,6 +23,10 @@ public class UpdateCouponCommand implements OperationCommand {
         System.out.println("ID купона:");
         Long couponId = Long.parseLong(scanner.nextLine().trim());
         Coupon coupon = couponService.getById(couponId);
+        if (coupon == null) {
+            System.out.println("Купон с ID: " + couponId + " не найден.");
+            return;
+        }
 
         System.out.println("Новый код купона (Enter, чтобы не менять):");
         String code = scanner.nextLine().trim();
